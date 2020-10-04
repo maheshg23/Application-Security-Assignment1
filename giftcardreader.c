@@ -61,7 +61,7 @@ void animate(char *msg, unsigned char *program)
         case 0x08:
             goto done;
         case 0x09:
-            pc += (char)arg1;
+            pc += (unsigned char)arg1;
             break;
         case 0x10:
             if (zf)
@@ -69,7 +69,7 @@ void animate(char *msg, unsigned char *program)
             break;
         }
         pc += 3;
-        if (pc > program + 256 || count > INT16_MAX - 1)
+        if (pc > program + 256)
             break;
     }
 done:
