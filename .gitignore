@@ -1,6 +1,12 @@
 # Prerequisites
 *.d
 *.iml
+*.gcno
+*.gcda
+*.info
+*.c.gcov
+afl/
+outputs/ 
 
 # Object files
 *.o

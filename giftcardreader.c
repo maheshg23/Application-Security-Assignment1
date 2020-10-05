@@ -39,21 +39,30 @@ void animate(char *msg, unsigned char *program)
             regs[arg1] = *mptr;
             break;
         case 0x02:
-            *mptr = regs[arg1];
+            if (arg1 < 16)
+                *mptr = regs[arg1];
             break;
         case 0x03:
-            mptr += (char)arg1;
+            if (arg1 < 16)
+                mptr += (unsigned char)arg1;
             break;
         case 0x04:
-            regs[arg2] = arg1;
+            if (arg1 < 16 && arg2 < 16)
+                regs[arg2] = arg1;
             break;
         case 0x05:
-            regs[arg1] ^= regs[arg2];
-            zf = !regs[arg1];
+            if (arg1 < 16 && arg2 < 16)
+            {
+                regs[arg1] ^= regs[arg2];
+                zf = !regs[arg1];
+            }
             break;
         case 0x06:
-            regs[arg1] += regs[arg2];
-            zf = !regs[arg1];
+            if (arg1 < 16 && arg2 < 16)
+            {
+                regs[arg1] += regs[arg2];
+                zf = !regs[arg1];
+            }
             break;
         case 0x07:
             puts(msg);
@@ -61,11 +70,13 @@ void animate(char *msg, unsigned char *program)
         case 0x08:
             goto done;
         case 0x09:
-            pc += (unsigned char)arg1;
+            if (arg1 < 16)
+                pc += (unsigned char)arg1;
             break;
         case 0x10:
             if (zf)
-                pc += (char)arg1;
+                if (arg1 < 16)
+                    pc += (char)arg1;
             break;
         }
         pc += 3;
@@ -301,9 +312,6 @@ int main(int argc, char **argv)
     FILE *input_fd = fopen(argv[2], "r");
 
     thisone = gift_card_reader(input_fd);
-    // if (thisone == null){
-
-    // }
     if (argv[1][0] == '1')
         print_gift_card_info(thisone);
     else if (argv[1][0] == '2')

@@ -1,0 +1,40 @@
+Coverage report for gcov before the hand written cov1.gft cov2.gft test case - 
+    mahesh@Maheshs-MacBook-Pro Application-Security-Assignment1 % gcov giftcardreader                    
+    File 'giftcardreader.c'
+    Lines executed:60.67% of 178
+    giftcardreader.c:creating 'giftcardreader.c.gcov
+
+
+Testcase - cov1.gft
+    the Annimate function has less coverage so we can use the below program instructuion to improve the coverage in the animate function. 
+    0x01,(10),(12),
+    0x02,(10),(12),
+    0x04,(10),(12),
+    0x06,(10),(12),
+    0x07,0xff,0xff,
+    0x08,0xff,0xff,
+    0x01,(10),(12),
+    These commands will run majority code of the animate function. Thereby increasing the test coverage.
+
+Test case cov2.gft
+    Type 2 record code was not convered in the previous test cases. This test cases creates a single record of type 2. 
+    This would cover all the lines for the record type 2.
+
+Coverage report of gcov after cov1.gft and cov2.gft - 
+    mahesh@Maheshs-MacBook-Pro Application-Security-Assignment1 % gcov giftcardreader
+    File 'giftcardreader.c'
+    Lines executed:68.54% of 178
+    giftcardreader.c:creating 'giftcardreader.c.gcov'
+
+We can also pass in arg[1] as 2 to print the ouput in JSON format that will increate the test case converage. 
+
+
+fuzzer1.gft
+This fuzzer fails due to arg1 and arg 2 values. Then arg1 and arg 2 values are out of the register bound of 0 to 16. 
+It access memory that is not in the bounds and this would affect pother storage location that is stored at those locations. 
+to resolve this we do bound checks on arg11 and arg2. 
+
+fuzzer2.gft
+This fuzzer test case fails due to arg1 being out of the char range when the following commands are run "0x03, 0x09, 0x10"
+This is because the arg1 is explicitly type casted into char and this looses the precision if it is outside the char range specially negative values. 
+To ignore the negative overflow values we type cast the arg1 into unsigned char and this would resolve this issue. 

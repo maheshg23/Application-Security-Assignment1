@@ -1,0 +1,18 @@
+GCOV - 
+gcc -g --coverage -o giftcardreader giftcardreader.c
+
+./giftcardreader 1 part2/crash1.gft 
+./giftcardreader 1 part2/crash2.gft 
+./giftcardreader 1 part2/hang.gft 
+
+gcov giftcardreader
+
+LCOV:
+
+lcov -c -d . -o gitcardreader.info 
+genhtml giftcardreader.info -o giftcardreader_report
+
+
+AFL Fuzzer - 
+afl-clang giftcardreader.c -o giftcardreader 
+afl-fuzz -i inputs -o outputs -- ./giftcardreader 1 @@

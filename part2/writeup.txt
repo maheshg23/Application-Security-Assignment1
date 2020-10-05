@@ -1,0 +1,35 @@
+crash1.gft
+
+    num_bytes is set to -2147483648. 
+    And this is outside of the Integer range so the malloc at line 212 (giftcardreader.c) "optr = ptr - 4;". 
+    This is because the fread will fail to read the num_bytes as it is outside the rand and fread will store 0 
+    in the ptr and when we try to decrement the ptr we get an error of segmentation fault. 
+
+    Terminal Error -
+        mahesh@Maheshs-MacBook-Pro Application-Security-Assignment1 % ./giftcardreader 1 crash1.gft
+        giftcardreader(79947,0x114307dc0) malloc: can't allocate region
+        :*** mach_vm_map(size=18446744071562067968, flags: 100) failed (error code=3)
+        giftcardreader(79947,0x114307dc0) malloc: *** set a breakpoint in malloc_error_break to debug
+        zsh: segmentation fault  ./giftcardreader 1 crash1.gft
+
+
+
+crash2.gft
+
+    We pass in the following instruction to the program. 
+    "0x01, (127), 0xaa"
+
+    This states that execute line 39 - "regs[arg1] = *mptr;"
+    The mptr pointed stores the start of the message data. 
+    We store the value 127 into the regs(register) which has been allocated just 16 bytes. 
+    So regs[127] will be stores out of bound and this will cause the program to creah with segmentation fault. 
+
+
+
+Hang.gft
+
+    We pass the following program instruction - "0x09, (130), 0xaa"
+    This will execute the line 64 "pc += (char)arg1;" 
+    arg1 will have the value 130 which will get cast into char and overflow. 
+    So the pc pointer is decremeted by 3 bytes and this will start from the same place that is 0x09. 
+    This way the program will keep looping through this instructuion wothout exiting or breaking out of the loop.
